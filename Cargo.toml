@@ -4,3 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+# clap - CLI argument parsing
+# pulldown-cmark - Markdown to HTML
+# tera - Templating engine
+# serde + toml + serde_yaml - Config and front matter parsing
+# gray_matter - Front matter extraction
+# walkdir - Recursive directory traversal
+# sha2 or blake3 - Hashing for incremental builds
+# axum or tiny_http - Dev server
+# notify - Filesystem watcher for live rebuild
+# rayon - Parallel page rendering
+# tokio - Async runtime
