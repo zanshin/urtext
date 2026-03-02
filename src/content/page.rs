@@ -66,3 +66,7 @@ pub fn to_html(input: &str) -> String {
 
     output
 }
+
+pub fn frontmatter_parser() {
+    println!({}, "Magic pixie dust here")
+}
