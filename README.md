@@ -10,6 +10,12 @@ SSG serves two purposes:
 1. I wanted to have my own site generator
 2. I wanted a real-world project to learn more about Rust
 
+# Goals
+
+- Rapid, incremental builds
+- rsync to host
+- Simple CSS 
+
 # Usage
 List of commands:
 
