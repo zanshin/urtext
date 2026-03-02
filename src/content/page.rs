@@ -1,5 +1,7 @@
 use chrono::NaiveDate;
+use pulldown_cmark::{Options, Parser, html};
 use serde::{Deserialize, Serialize};
+
 use std::path::PathBuf;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -23,7 +25,6 @@ pub struct Page {
 
 // Functions needed
 // parse a file into Page
-// compute a page's slug
 // determine the output path
 
 pub fn slugify(title: &str) -> String {
@@ -50,4 +51,18 @@ pub fn slugify(title: &str) -> String {
     }
 
     slug
+}
+
+pub fn to_html(input: &str) -> String {
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_TABLES);
+    options.insert(Options::ENABLE_TASKLISTS);
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+
+    let parser = Parser::new_ext(input, options);
+
+    let mut output = String::new();
+    html::push_html(&mut output, parser);
+
+    output
 }
