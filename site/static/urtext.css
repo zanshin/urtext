@@ -1,0 +1,26 @@
+/* YouTube video embed */
+.video-container {
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.video-container iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+
+.video-links {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.video-links a {
+  color: #cc0000;
+  text-decoration: none;
+}
+
+.video-links a:hover {
+  text-decoration: underline;
+}

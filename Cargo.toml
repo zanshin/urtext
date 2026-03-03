@@ -17,15 +17,12 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0.102"
 sha2 = "0.10.9"
 hex = "0.4.3"
+tera = "1.20.1"
 
 
 # clap - CLI argument parsing
-# tera - Templating engine
 # toml + serde_yaml - Config and front matter parsing
 # gray_matter - Front matter extraction
 # walkdir - Recursive directory traversal
-# sha2 or blake3 - Hashing for incremental builds
-# axum or tiny_http - Dev server
 # notify - Filesystem watcher for live rebuild
 # rayon - Parallel page rendering
-# tokio - Async runtime
