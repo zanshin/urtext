@@ -1,79 +1,13 @@
-use chrono::NaiveDate;
-use pulldown_cmark::{Options, Parser, html};
-use serde::{Deserialize, Serialize};
+use crate::content::frontmatter::FrontMatter;
+use crate::shortcodes::handlers::process_shortcodes;
 
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use anyhow::{Context, Result, anyhow};
+use anyhow::{Context, Result};
+use pulldown_cmark::{Options, Parser, html};
 use sha2::{Digest, Sha256};
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct FrontMatter {
-    pub title: String,
-    pub date: chrono::NaiveDate,
-    pub tags: Option<Vec<String>>,
-    pub draft: Option<bool>,
-    pub template: Option<String>, // override default template
-}
-
-impl FrontMatter {
-    pub fn parse(content: &str) -> Result<(FrontMatter, &str)> {
-        let content = content.trim_start();
-
-        // check for front matter marker
-        if !content.starts_with("---") {
-            return Err(anyhow!("Missing from matter marker '---' at start"));
-        }
-
-        // find end of front matter
-        let mut lines = content.lines();
-
-        // skip first marker
-        lines.next();
-
-        let mut front_matter_end = 0;
-        for (i, line) in content.lines().enumerate().skip(1) {
-            if line.trim() == "---" {
-                // end of front matter
-                front_matter_end = i;
-                break;
-            }
-        }
-
-        if front_matter_end == 0 {
-            return Err(anyhow!("Front matter not terminated with '---'"));
-        }
-
-        // compute byte indices for slicing
-        let mut iter = content.lines();
-        // Skip first '---'
-        iter.next();
-        let byte_start = iter.next().map_or(0, |l| content.find(l).unwrap_or(0));
-        let mut byte_end = byte_start;
-        for (i, line) in content.lines().enumerate().skip(1) {
-            if i >= front_matter_end {
-                break;
-            }
-            byte_end += line.len() + 1; // +1 for newline
-        }
-
-        let front_matter_str = &content[byte_start..byte_end];
-        let front_matter: FrontMatter = serde_yaml::from_str(front_matter_str)
-            .map_err(|e| anyhow!("Failed to parse front matter YAML: {}", e))?;
-
-        // Slice remaining body
-        let body_lines: Vec<&str> = content.lines().skip(front_matter_end + 1).collect();
-        let remaining_body = if body_lines.is_empty() {
-            ""
-        } else {
-            let start_index = content.find(body_lines[0]).unwrap();
-            &content[start_index..]
-        };
-
-        Ok((front_matter, remaining_body))
-    }
-}
+use tera::Tera;
 
 pub struct Page {
     pub front_matter: FrontMatter,
@@ -86,9 +20,8 @@ pub struct Page {
 }
 
 impl Page {
-    pub fn from_file(path: &Path) -> Result<Page> {
-        let raw = fs::read_to_string(path)
-            .with_context(|| format!("Failed to read file: {}", path.display()))?;
+    pub fn from_file(path: &Path, tera: &Tera) -> Result<Page> {
+        let raw = fs::read_to_string(path)?;
 
         // need hash prior to parsing
         let mut hasher = Sha256::new();
@@ -97,12 +30,15 @@ impl Page {
 
         let (front_matter, body) = FrontMatter::parse(&raw)?;
 
-        let rendered_content = to_html(body);
+        let content_with_shortcodes = process_shortcodes(&body, &tera)?;
+        let rendered_content = to_html(&content_with_shortcodes);
 
         let slug = slugify(front_matter.title.as_str());
 
         let relative = path.strip_prefix("content")?;
-        let output_path = PathBuf::from("public").join(relative).join("html");
+        let output_path = PathBuf::from("public")
+            .join(relative)
+            .with_extension("html");
 
         Ok(Page {
             front_matter,

@@ -18,6 +18,7 @@ anyhow = "1.0.102"
 sha2 = "0.10.9"
 hex = "0.4.3"
 tera = "1.20.1"
+walkdir = "2.5.0"
 
 
 # clap - CLI argument parsing
