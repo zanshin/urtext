@@ -33,6 +33,7 @@ fn replaces_youtube_shortcode() {
     assert_eq!(output, "Before <div>abc123</div> After");
 }
 
+#[test]
 fn parses_mixes_attributes() {
     let input = r#"youtube id=abc123 start="90""#;
 

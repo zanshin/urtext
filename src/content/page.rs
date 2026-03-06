@@ -59,19 +59,15 @@ impl Page {
 pub fn slugify(title: &str) -> String {
     title
         .chars()
-        // normalize characters
-        .map(|ch| {
+        .filter_map(|ch| {
             if ch.is_ascii_alphanumeric() {
-                ch.to_ascii_lowercase()
+                Some(ch.to_ascii_lowercase())
             } else if ch.is_whitespace() || ch == '-' {
-                '-'
+                Some('-')
             } else {
-                '\0' // sentinel for "drop this"
+                None
             }
         })
-        // remove unwanted characters
-        .filter(|&ch| ch != '\0')
-        // collapse consecutive dashes
         .fold(String::new(), |mut acc, ch| {
             if ch == '-' && acc.ends_with('-') {
                 return acc;
@@ -79,7 +75,6 @@ pub fn slugify(title: &str) -> String {
             acc.push(ch);
             acc
         })
-        // trim leading/trailing dash
         .trim_matches('-')
         .to_string()
 }

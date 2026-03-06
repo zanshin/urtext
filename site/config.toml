@@ -3,3 +3,13 @@ base_url = "https://example.com"
 
 author = "Your Name"
 email = "you.name@example.com"
+
+content_dir = "content/posts"
+public_dir = "public"
+template_dir = "templates"
+
+build_drafts = true
+
+[render]
+highlight_code = true
+smart_punctuation = true
