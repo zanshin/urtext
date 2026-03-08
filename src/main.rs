@@ -5,6 +5,7 @@ use urtext::content::archetypes;
 use urtext::deploy::sync;
 use urtext::server::routes;
 
+use anyhow::Result;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
@@ -57,15 +58,20 @@ enum Commands {
     },
 }
 
-#[tokio::main]
-async fn main() {
-    let cli = Cli::parse();
-
-    match cli.command {
-        Commands::Build { drafts } => pipeline::build(drafts),
-        Commands::Serve { port } => routes::serve(port),
-        Commands::Deploy { target } => sync::transfer(target),
-        Commands::Create { kind, title } => archetypes::new_post(kind, title),
-        Commands::New { sitename } => archetypes::new_site(sitename),
+impl Commands {
+    pub async fn run(self) -> Result<()> {
+        match self {
+            Commands::Build { drafts } => pipeline::build(drafts),
+            Commands::Serve { port } => routes::serve(port),
+            Commands::Deploy { target } => sync::transfer(target),
+            Commands::Create { kind, title } => archetypes::new_post(kind, title),
+            Commands::New { sitename } => archetypes::new_site(sitename),
+        }
     }
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let cli = Cli::parse();
+    cli.command.run().await
 }

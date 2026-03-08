@@ -8,9 +8,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{Context, Result};
 use tera::Tera;
 
-pub fn build(drafts: bool) {
-    println!("build drafts {}", drafts);
-
+pub fn build(drafts: bool) -> Result<()> {
     let content_dir = Path::new("content");
     let output_dir = Path::new("public");
     let template_glob = "templates/**/*";
@@ -19,7 +17,7 @@ pub fn build(drafts: bool) {
 
     build_site(content_dir, output_dir, &tera, drafts).expect("Build failed");
 
-    println!("Build complete");
+    Ok(())
 }
 
 pub fn build_site(content_dir: &Path, output_dir: &Path, tera: &Tera, drafts: bool) -> Result<()> {
