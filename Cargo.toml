@@ -6,6 +6,14 @@ edition = "2024"
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_yaml = "0.9"
+anyhow = "1.0.102"
+chrono = { version = "0.4.44", features = ["serde"] }
+pulldown-cmark = "0.13.1"
+sha2 = "0.10.9"
+hex = "0.4.3"
+tera = "1.20.1"
 # clap - CLI argument parsing
 # pulldown-cmark - Markdown to HTML
 # tera - Templating engine
