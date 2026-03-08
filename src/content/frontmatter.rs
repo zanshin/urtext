@@ -1,14 +1,21 @@
 // src/build/frontmatter.rs
 
 use anyhow::{Result, anyhow};
-use serde::{Deserialize, Serialize};
+use chrono::NaiveDate;
+use serde::{Deserialize, Deserializer, Serialize};
+
+fn deserialize_date<'de, D: Deserializer<'de>>(d: D) -> Result<NaiveDate, D::Error> {
+    let s = String::deserialize(d)?;
+    NaiveDate::parse_from_str(&s, "%Y-%m-%d").map_err(serde::de::Error::custom)
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct FrontMatter {
     pub title: String,
-    pub data: chrono::NaiveDate,
+    #[serde(deserialize_with = "deserialize_date")]
+    pub date: chrono::NaiveDate,
     pub tags: Option<Vec<String>>,
-    pub drafts: Option<bool>,
+    pub draft: Option<bool>,
     pub template: Option<String>,
 }
 

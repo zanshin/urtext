@@ -3,6 +3,9 @@ name = "urtext"
 version = "0.1.0"
 edition = "2024"
 
+[dev-dependencies]
+tempfile = "3"
+
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
@@ -14,6 +17,7 @@ pulldown-cmark = "0.13.1"
 sha2 = "0.10.9"
 hex = "0.4.3"
 tera = "1.20.1"
+tempfile = "3"
 # clap - CLI argument parsing
 # pulldown-cmark - Markdown to HTML
 # tera - Templating engine
