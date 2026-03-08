@@ -2,6 +2,13 @@
 name = "urtext"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.95.0-nightly"
+description = "A Rust-based static site generator"
+license = "MIT"
+repository = "https://codeberg.org/zanshin/urtext"
+readme = "README.md"
+keywords = ["ssg", "weblog"]
+categories = ["web-programming"]
 
 [dev-dependencies]
 tempfile = "3"
