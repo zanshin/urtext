@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 # clap - CLI argument parsing
 # pulldown-cmark - Markdown to HTML
 # tera - Templating engine
