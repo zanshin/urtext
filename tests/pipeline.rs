@@ -1,34 +1,13 @@
 // tests/pipeline.rs
 
+mod common;
+use common::make_tera;
+use common::setup_dirs;
+
 use urtext::build::pipeline::build_site;
 
 use std::fs;
 use tempfile::tempdir;
-use tera::Tera;
-
-fn make_tera(template_dir: &std::path::Path) -> Tera {
-    Tera::new(template_dir.join("**/*").to_str().unwrap()).unwrap()
-}
-
-fn setup_dirs(
-    temp: &tempfile::TempDir,
-) -> (std::path::PathBuf, std::path::PathBuf, std::path::PathBuf) {
-    let content_dir = temp.path().join("content");
-    let output_dir = temp.path().join("public");
-    let template_dir = temp.path().join("templates");
-
-    fs::create_dir_all(&content_dir).unwrap();
-    fs::create_dir_all(&template_dir).unwrap();
-    fs::create_dir_all(template_dir.join("partials")).unwrap();
-
-    fs::write(
-        template_dir.join("base.html"),
-        "<html><body>{{ content | safe }}</body></html>",
-    )
-    .unwrap();
-
-    (content_dir, output_dir, template_dir)
-}
 
 // --- Basic rendering ---
 const HELLO_MD: &str = r#"---
