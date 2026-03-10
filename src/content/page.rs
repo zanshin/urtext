@@ -1,6 +1,7 @@
 // src/content/page.rs
 
 use crate::content::frontmatter::FrontMatter;
+use crate::shortcodes::handlers::process_shortcodes;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -27,7 +28,8 @@ impl Page {
         let hash = hex::encode(hasher.finalize());
 
         let (front_matter, body) = FrontMatter::parse(&raw)?;
-        let rendered_content = markdown_to_html(body);
+        let content_with_shortcodes = process_shortcodes(body)?;
+        let rendered_content = markdown_to_html(&content_with_shortcodes);
 
         let relative = path.strip_prefix(content_root)?;
         let output_path = relative.with_extension("html");
