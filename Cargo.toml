@@ -1,7 +1,25 @@
+[workspace]
+resolver = "3"
+members = [
+  "crates/base",
+  "crates/builder",
+  "crates/cli",
+  "crates/markdown",
+  "crates/server",
+  "crates/templates"]
+
+[workspace.package]
+version = "0.3.0"
+edition = "2021"
+authors = ["Mark Nichols"]
+license = "MIT"
+
 [package]
 name = "urtext"
-version = "0.1.0"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
 
 [dependencies]
 # clap - CLI argument parsing
