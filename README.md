@@ -56,7 +56,7 @@ The following commands create new content:
     urtext serve -p 8080  # Custom port
     urtext serve --open   # Open browser automatically
 
-## Project Structure (Generated Sites)
+## PROJECT STRUCTURE (Generated sites)
 
 ```
 my-site/
@@ -83,7 +83,7 @@ my-site/
     └── ...
 ```
 
-## Important notes
+## IMPORTANT NOTES
 
 - All templates must use `{{ content.body | safe }}` to render HTML (Tera
 escapes by default)
