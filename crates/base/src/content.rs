@@ -53,6 +53,54 @@ impl Post {
     }
 }
 
+#[derive(Debug, Clone)]
+pub struct LinkPost {
+    frontmatter: FrontMatter,
+    body: String,
+    slug: String,
+    link_url: String,
+}
+
+impl LinkPost {
+    pub fn from_markdown(content: &str) -> Result<Self, ContentError> {
+        let (frontmatter_str, body) = parse_content(content)?;
+        let frontmatter = FrontMatter::parse_require_title(&frontmatter_str)?;
+
+        let link_url = frontmatter
+            .get_string("link_url")
+            .ok_or_else(|| ContentError::InvalidFormat)?
+            .to_string();
+
+        let slug = frontmatter
+            .get_string("slug")
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| slugify(&frontmatter.title));
+
+        Ok(LinkPost {
+            frontmatter,
+            body,
+            slug,
+            link_url,
+        })
+    }
+
+    pub fn frontmatter(&self) -> &FrontMatter {
+        &self.frontmatter
+    }
+
+    pub fn body(&self) -> &str {
+        &self.body
+    }
+
+    pub fn slug(&self) -> &str {
+        &self.slug
+    }
+
+    pub fn link_url(&self) -> &str {
+        &self.link_url
+    }
+}
+
 fn parse_content(content: &str) -> Result<(String, String), ContentError> {
     let content = content.trim();
 
