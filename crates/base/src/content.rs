@@ -101,6 +101,55 @@ impl LinkPost {
     }
 }
 
+#[derive(Debug, Clone)]
+pub struct Note {
+    frontmatter: FrontMatter,
+    body: String,
+    slug: String,
+}
+
+impl Note {
+    pub fn from_markdown(content: &str) -> Result<Self, ContentError> {
+        let (frontmatter_str, body) = parse_content(content)?;
+        let mut frontmatter = FrontMatter::parse(&frontmatter_str)?;
+
+        // notes can have empty titles, so set a default if missing
+        if frontmatter.title.is_empty() {
+            frontmatter.title = format!("Note {}", frontmatter.date.format("%Y-%m-%d %H:%M"));
+        }
+
+        let slug = frontmatter
+            .get_string("slug")
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| {
+                if frontmatter.title.starts_with("Note ") {
+                    // generate slug from date if title is auto-generated
+                    frontmatter.date.format("%Y-%m-%d-%H&M&S").to_string()
+                } else {
+                    slugify(&frontmatter.title)
+                }
+            });
+
+        Ok(Note {
+            frontmatter,
+            body,
+            slug,
+        })
+    }
+
+    pub fn frontmatter(&self) -> &FrontMatter {
+        &self.frontmatter
+    }
+
+    pub fn body(&self) -> &str {
+        &self.body
+    }
+
+    pub fn slug(&self) -> &str {
+        &self.slug
+    }
+}
+
 fn parse_content(content: &str) -> Result<(String, String), ContentError> {
     let content = content.trim();
 
