@@ -1,5 +1,6 @@
-// ABOUTME: Frontmatter parsing and representation for content files.
-// ABOUTME: Handles YAML frontmatter with required fields (title, date) and optional extra fields.
+//! Frontmatter parsing and representation for content files.
+//! Handles YAML frontmatter with required fields (title, date) and optional extra fields.
+//! crates/base/src/frontmatter.rs
 
 use ::chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};

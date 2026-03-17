@@ -1,7 +1,6 @@
-// crates/markdown/src/lib.rs
-
-// ABOUTME: Markdown parsing and HTML converson for urtext.
-// ABOUTEM: Uses pulldown-cmark for CommonMark-complian markdown processing.
+//! Markdown parsing and HTML converson for urtext.
+//! Uses pulldown-cmark for CommonMark-complian markdown processing.
+//! crates/markdown/src/lib.rs
 
 pub mod parser;
 

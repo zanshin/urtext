@@ -1,5 +1,8 @@
-// ABOUTME: Base domain models and types for the urtext static site generator.
-// ABOUTME: This crate defines content types, frontmatter parsing, and site configuration.
+//! # base
+//!
+//! The `base` crate defines the content types, handles frontmatter parsing, and site configruation.
+//!
+//! crates/base/src/lib.rs
 
 pub mod content;
 pub mod frontmatter;

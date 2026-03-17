@@ -1,7 +1,6 @@
-// crate/base/src/site.rs
-
-// ABOUTME: Site configuration and settings.
-// ABOUTME: Handles loading and parsing config.toml files.
+//! Site configuration and settings.
+//! Handles loading and parsing config.toml files.
+//! crate/base/src/site.rs
 
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -13,7 +12,7 @@ pub enum SiteConfigError {
     TomlError(#[from] toml::de::Error),
 
     #[error("Missing required field: {0}")]
-    MIssingFiled(String),
+    MissingFiled(String),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

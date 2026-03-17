@@ -1,7 +1,6 @@
-// crates/markdown/src/parser.rs
-
-// ABOUTME: Markdown parser that converts markdown to HTML.
-// ABOUTME: Handles code blocks, lists, links, images, and standard markdown features.
+//! Markdown parser that converts markdown to HTML.
+//! Handles code blocks, lists, links, images, and standard markdown features.
+//! crates/markdown/src/parser.rs
 
 use pulldown_cmark::{html, Options, Parser};
 use thiserror::Error;

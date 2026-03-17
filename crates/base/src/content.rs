@@ -1,5 +1,6 @@
-// ABOUTME: Content types for different kinds of posts.
-// ABOUTME: Implements parsing from markdown files with frontmatter.
+//! Content types for different kinds of posts.
+//! Implements parsing from markdown files with frontmatter.
+//! crates/base/src/content.rs
 
 use crate::frontmatter::{FrontMatter, FrontMatterError};
 use thiserror::Error;
