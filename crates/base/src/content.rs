@@ -176,6 +176,54 @@ fn parse_content(content: &str) -> Result<(String, String), ContentError> {
     Ok((frontmatter, body))
 }
 
+#[derive(Debug, Clone)]
+pub struct VideoPost {
+    frontmatter: FrontMatter,
+    body: String,
+    slug: String,
+    youtube_id: String,
+}
+
+impl VideoPost {
+    pub fn from_markdown(content: &str) -> Result<Self, ContentError> {
+        let (frontmatter_str, body) = parse_content(content)?;
+        let mut frontmatter = FrontMatter::parse_require_title(&frontmatter_str)?;
+
+        let youtube_id = frontmatter
+            .get_string("youtube_id")
+            .ok_or_else(|| ContentError::InvalidFormat)?
+            .to_string();
+
+        let slug = frontmatter
+            .get_string("slug")
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| slugify(&frontmatter.title));
+
+        Ok(VideoPost {
+            frontmatter,
+            body,
+            slug,
+            youtube_id,
+        })
+    }
+
+    pub fn frontmatter(&self) -> &FrontMatter {
+        &self.frontmatter
+    }
+
+    pub fn body(&self) -> &str {
+        &self.body
+    }
+
+    pub fn slug(&self) -> &str {
+        &self.slug
+    }
+
+    pub fn youtube_id(&self) -> &str {
+        &self.youtube_id
+    }
+}
+
 fn slugify(s: &str) -> String {
     s.to_lowercase()
         .chars()

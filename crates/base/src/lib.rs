@@ -4,5 +4,5 @@
 pub mod content;
 pub mod frontmatter;
 
-pub use content::{LinkPost, Note, Post};
+pub use content::{LinkPost, Note, Post, VideoPost};
 pub use frontmatter::FrontMatter;
