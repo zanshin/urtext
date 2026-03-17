@@ -3,6 +3,8 @@
 
 pub mod content;
 pub mod frontmatter;
+pub mod site;
 
 pub use content::{LinkPost, Note, Post, VideoPost};
 pub use frontmatter::FrontMatter;
+pub use site::SiteConfig;

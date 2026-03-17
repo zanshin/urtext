@@ -187,7 +187,7 @@ pub struct VideoPost {
 impl VideoPost {
     pub fn from_markdown(content: &str) -> Result<Self, ContentError> {
         let (frontmatter_str, body) = parse_content(content)?;
-        let mut frontmatter = FrontMatter::parse_require_title(&frontmatter_str)?;
+        let frontmatter = FrontMatter::parse_require_title(&frontmatter_str)?;
 
         let youtube_id = frontmatter
             .get_string("youtube_id")
