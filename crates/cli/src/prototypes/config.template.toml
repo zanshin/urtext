@@ -1,0 +1,7 @@
+title = "{{title}}"
+base_url = "{{base_url}}"
+
+[paths]
+content = "content"
+output = "public"
+templates = "templates"
