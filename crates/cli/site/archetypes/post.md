@@ -1,5 +1,5 @@
 ---
-title: "{{ titel }}"
+title: "{{ title }}"
 date: {{ date }}
 draft: true
 tags: []
