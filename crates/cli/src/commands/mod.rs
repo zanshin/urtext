@@ -3,7 +3,9 @@
 //! crates/cli/src/commands/mod.rs
 
 pub mod create;
+pub mod deploy;
 pub mod new;
 
 pub use create::CreateCommand;
+pub use deploy::DeployCommand;
 pub use new::NewCommand;

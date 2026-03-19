@@ -130,6 +130,7 @@ dependencies = [
  "chrono",
  "predicates",
  "tempfile",
+ "walkdir",
 ]
 
 [[package]]
